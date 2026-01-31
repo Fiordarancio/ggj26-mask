@@ -7,13 +7,13 @@
             "id": "2991b576-cc99-4c86-9b4c-d9639b47fd70",
             "actions": [
                 {
-                    "name": "Move",
-                    "type": "Button",
+                    "name": "MovePad",
+                    "type": "Value",
                     "id": "7ea34f77-b323-4bd8-b48c-d6d59d0f9600",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "interactions": "Hold",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Throw Mask",
@@ -59,6 +59,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MoveKey",
+                    "type": "Button",
+                    "id": "2e5a9d37-e692-4aff-963a-71e1790acc75",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -69,7 +78,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MovePad",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -80,7 +89,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MovePad",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -91,7 +100,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MovePad",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -102,51 +111,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "92caf7b6-8b18-4981-b1c5-6e4423aea875",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f0eeeaae-69f4-48c9-b1a6-cf0fdfb9a810",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "106cc29c-19d1-466d-af4a-d773d829fd6f",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a573fb8e-026a-4906-9259-9a2d1bbaaf17",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
+                    "action": "MovePad",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -290,6 +255,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "UI - Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0eeeaae-69f4-48c9-b1a6-cf0fdfb9a810",
+                    "path": "<Keyboard>/a",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92caf7b6-8b18-4981-b1c5-6e4423aea875",
+                    "path": "<Keyboard>/w",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "106cc29c-19d1-466d-af4a-d773d829fd6f",
+                    "path": "<Keyboard>/s",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a573fb8e-026a-4906-9259-9a2d1bbaaf17",
+                    "path": "<Keyboard>/d",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
