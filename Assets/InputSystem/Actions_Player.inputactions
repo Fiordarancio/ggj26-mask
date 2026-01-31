@@ -10,7 +10,7 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "7ea34f77-b323-4bd8-b48c-d6d59d0f9600",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -99,7 +99,7 @@
                     "name": "",
                     "id": "be4da886-7bfd-49dd-9bf1-92c2a38bfb6f",
                     "path": "<Gamepad>/buttonSouth",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Jump",

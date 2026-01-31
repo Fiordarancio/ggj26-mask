@@ -68,10 +68,12 @@ public class PlayerController : MonoBehaviour
 
 	public void Move(InputAction.CallbackContext context)
 	{
-		if (Time.time < lastDash) return;
+		//Controllo che impedisce input per lastDash secondi al fine di rendere il dash duraturo
+		if (Time.time < lastDash) return; 
 
 	    Vector2 moveInput = context.ReadValue<Vector2>();
 
+		//Salvataggio del last input per la direzione del dash
 		if (moveInput.x > 0f)
 		        facing = Direction.Right;
 		    else if (moveInput.x < 0f)
@@ -84,6 +86,7 @@ public class PlayerController : MonoBehaviour
 	
 	public void OnJump(InputAction.CallbackContext ctx)
 	{
+		// se il player non tocca una superficie che fa parte del layer ground
 		if (!isGrounded) return;
 
 	    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -126,8 +129,10 @@ public class PlayerController : MonoBehaviour
 
 	public void OnDash(InputAction.CallbackContext ctx)
 	{
+		// Cooldown per il dash modificabile dall'editor
 	    if (Time.time < nextDashTime) return;
 	
+		// calcolo del tempo dall-ultimo dash e del tempo per il prossimo dash
 		nextDashTime = Time.time + dashCooldown;
 		lastDash = Time.time + dashDuration;
 
