@@ -6,26 +6,37 @@ public class PlayerController : MonoBehaviour
 {
   [Header("Movement")]
   public float moveSpeed = 10f;
-  public float jumpForce = 10f;
+  public float jumpForce = 200f;
 
-  [Header("Ground Check")]
+  [Header("Ground Checker")]
   public Transform groundCheck;
-  public float groundDistance = 3.0f;
+  public float groundDistance = 0.1f;
   public LayerMask groundMask;
 
+  public InputActionReference _jumpAction;
+
+  public bool isGrounded= false;
+
   private Rigidbody rb;
-  private bool isGrounded = false;
+//   private bool isGrounded = false;
+//   private bool jumping = false;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
     rb = GetComponent<Rigidbody>();
+	_jumpAction.action.performed += OnJump;
   }
+
+  void OnDestroy()
+	{
+		_jumpAction.action.performed -= OnJump;
+
+	}
 
   // Update is called once per frame
   void Update()
   {
-    // Ground Check
     isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, groundDistance, groundMask);
   }
 
@@ -37,9 +48,12 @@ public class PlayerController : MonoBehaviour
     rb.linearVelocity = currentVelocity;
   }
   
-  public void Jump()
+  public void OnJump(InputAction.CallbackContext ctx)
   {
-    Debug.Log("Player is jumping");
+	if (!isGrounded) return;
+
+    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    Debug.Log("Player JUMPS");
   }
 
   public void ThrowMask()
