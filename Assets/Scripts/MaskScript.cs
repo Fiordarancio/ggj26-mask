@@ -22,7 +22,8 @@ public class MaskScript : MonoBehaviour
 
     private Vector3 startPos;
 
-    public GameObject owner; 
+    public GameObject owner;
+    private GameObject masksContainer;
 
     public bool CanLaunch()
     {
@@ -34,6 +35,7 @@ public class MaskScript : MonoBehaviour
         launched = true;
         launch_dir = facing_dir;
         startPos = transform.position;
+        transform.SetParent(masksContainer.transform);
     }
 
     public void CatchMask(GameObject newParent)
@@ -43,6 +45,8 @@ public class MaskScript : MonoBehaviour
             transform.SetParent(newParent.transform, true);
             owner = newParent;
         }
+
+        owner.GetComponent<PlayerController>().parryArea.GetComponent<ParryArea>().Reset();
 
         launched = false;
         returningMask = false;
@@ -66,6 +70,7 @@ public class MaskScript : MonoBehaviour
     {
         transform.SetParent(owner.transform);
         defaultPosMask = transform.position - owner.transform.position;
+        masksContainer = GameObject.Find("Masks");
     }
 
     void FixedUpdate()
