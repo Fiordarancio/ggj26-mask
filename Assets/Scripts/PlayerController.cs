@@ -1,110 +1,148 @@
+using UnityEngine.InputSystem;
 using UnityEngine;
 using System;
-using UnityEngine.InputSystem;
+
+public enum Direction
+{
+    Left = -1,
+    Right = 1
+};
 
 public class PlayerController : MonoBehaviour
 {
-  [Header("Movement")]
-  public float moveSpeed = 10f;
-  public float jumpForce = 200f;
+	[Header("Movement")]
+	public float 		moveSpeed = 10f;
+	public float 		jumpForce = 10f;
+	public float 		umpForce = 200f;
 
-  [Header("Ground Checker")]
-  public Transform groundCheck;
-  public float groundDistance = 0.1f;
-  public LayerMask groundMask;
+	public float		dashForce = 30f;
 
-  public InputActionReference _jumpAction;
+	public float		dashCooldown = 2f;
 
-  public bool isGrounded= false;
+	public float		dashDuration = 1.5f;
 
-  private Rigidbody rb;
-  private GameObject[] ownedMasks;
-  public ParryArea parryArea;
-  public InputActionReference parryAction;
+	[Header("Ground Checker")]
+	public 				Transform groundCheck;
+	public float 		groundDistance = 0.1f;
+	public 				LayerMask groundMask;
 
-  // Start is called once before the first execution of Update after the MonoBehaviour is created
-  void Start()
-  {
-    rb = GetComponent<Rigidbody>();
-	_jumpAction.action.performed += OnJump;
-    parryAction.action.performed += TryParry;
-  }
+	public	InputActionReference _jumpAction;
+	public	InputActionReference _dashAction;
+	public	InputActionReference _parryAction;
 
-  void OnDestroy()
+	public bool			isGrounded = false;
+
+	private				Rigidbody rb;
+
+	// Last valid input direction: -1 = left, +1 = right
+	private Direction 	facing = Direction.Right;
+
+	private GameObject[] ownedMasks;
+	public ParryArea 	parryArea;
+
+	private float	lastDash = 0f;
+	private float	nextDashTime = 0f;
+  
+  	// Start is called once before the first execution of Update after the MonoBehaviour is created
+	void Start()
+	{
+	    rb = GetComponent<Rigidbody>();
+		_jumpAction.action.performed += OnJump;
+	    _parryAction.action.performed += TryParry;
+		_dashAction.action.performed += OnDash;
+	}
+
+	void OnDestroy()
 	{
 		_jumpAction.action.performed -= OnJump;
-    parryAction.action.performed -= TryParry;
+	    _parryAction.action.performed -= TryParry;
+		_dashAction.action.performed += OnDash;
 
 	}
 
-  // Update is called once per frame
-  void Update()
-  {
-    isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, groundDistance, groundMask);
-  }
+	  // Update is called once per frame
+	void Update()
+	{
+	    isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, groundDistance, groundMask);
+	}
 
-  public void Move(InputAction.CallbackContext context)
-  {
-    Vector2 moveInput = context.ReadValue<Vector2>();
-    Vector3 currentVelocity = rb.linearVelocity;
-    currentVelocity.x = moveInput.x * moveSpeed;
-    rb.linearVelocity = currentVelocity;
-  }
-  
-  public void OnJump(InputAction.CallbackContext ctx)
-  {
-	if (!isGrounded) return;
+	public void Move(InputAction.CallbackContext context)
+	{
+		if (Time.time < lastDash) return;
 
-    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    Debug.Log("Player JUMPS");
-  }
+	    Vector2 moveInput = context.ReadValue<Vector2>();
 
-    // Update is called once per frame
-  private void TryParry(InputAction.CallbackContext ctx)
-  {
-    if (parryArea.canParry && !GameObject.ReferenceEquals(parryArea.curMask.GetComponent<MaskScript>().owner, gameObject))
-    {
-      parryArea.curMask.GetComponent<MaskScript>().CatchMask(gameObject);
-    }
-  }
-  
-  public void ThrowMask()
-  {
-    Transform maskTransform = null;
+		if (moveInput.x > 0f)
+		        facing = Direction.Right;
+		    else if (moveInput.x < 0f)
+		        facing = Direction.Left;
 
-    // Loop children to get mask
-    for(int i = 0; i < transform.childCount; i++)
-    {
-      Transform child = transform.GetChild(i);
-      if (child.tag == "Mask")
-      {
-        maskTransform = child.transform;
-        break;
-      }
-    }
+		Vector3 currentVelocity = rb.linearVelocity;
+		currentVelocity.x = moveInput.x * moveSpeed;
+		rb.linearVelocity = currentVelocity;
+	}
+	
+	public void OnJump(InputAction.CallbackContext ctx)
+	{
+		if (!isGrounded) return;
 
-    if (maskTransform != null)
-    {
-      MaskScript mask = maskTransform.gameObject.GetComponent<MaskScript>();
-      if (mask.CanLaunch())
-      {
-        mask.LaunchMask();
-      }
-    }
-  }
+	    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+	    Debug.Log("Player JUMPS");
+	}
 
-  public void Dash()
-  {
-    Debug.Log("Player is dashing");
-  }
+	    // Update is called once per frame
+	private void TryParry(InputAction.CallbackContext ctx)
+	{
+	    if (parryArea.canParry && !GameObject.ReferenceEquals(parryArea.curMask.GetComponent<MaskScript>().owner, gameObject))
+	    {
+	      parryArea.curMask.GetComponent<MaskScript>().CatchMask(gameObject);
+	    }
+	}
+	
+	public void ThrowMask()
+	{
+	    Transform maskTransform = null;
 
-  public void PauseGame()
-  {
-    Debug.Log("Game is paused");
-  }
-  
-  public void Parry()
-  {
-    Debug.Log("Player is parrying");
-  }
+	    // Loop children to get mask
+	    for(int i = 0; i < transform.childCount; i++)
+	    {
+	      Transform child = transform.GetChild(i);
+	      if (child.tag == "Mask")
+	      {
+	        maskTransform = child.transform;
+	        break;
+	      }
+	    }
+
+	    if (maskTransform != null)
+	    {
+	      MaskScript mask = maskTransform.gameObject.GetComponent<MaskScript>();
+	      if (mask.CanLaunch())
+	      {
+	        mask.LaunchMask();
+	      }
+	    }
+	}
+
+	public void OnDash(InputAction.CallbackContext ctx)
+	{
+	    if (Time.time < nextDashTime) return;
+	
+		nextDashTime = Time.time + dashCooldown;
+		lastDash = Time.time + dashDuration;
+
+	    Vector3 dashDirection = Vector3.right * (int)facing;
+	    rb.AddForce(dashDirection * dashForce, ForceMode.Impulse);
+	    Debug.Log("Player is dashing");
+	}
+
+	public void PauseGame()
+	{
+	    Debug.Log("Game is paused");
+	}
+	
+	public void Parry()
+	{
+	    Debug.Log("Player is parrying");
+	}
 }
