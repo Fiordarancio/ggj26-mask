@@ -7,7 +7,7 @@ public class MaskScript : MonoBehaviour
     [SerializeField]
     public float launch_vel = 0.1f;
     [SerializeField]
-    public float rot_vel = 0.05f;
+    public float rot_vel = 10f;
     [SerializeField]
     public float max_dist = 10f;
     [SerializeField]
@@ -17,10 +17,12 @@ public class MaskScript : MonoBehaviour
     private Vector3 facing_dir;
     public bool launched = false;
     public bool returningMask = false;
-    public Vector3 launch_dir;
-    public Vector3 rot_dir = new Vector3(0,0,1);
+    private Vector3 launch_dir;
+    private Vector3 rot_dir = new Vector3(0,0,1);
 
-    Vector3 startPos;
+    private Vector3 startPos;
+
+    public GameObject owner; 
 
     public bool CanLaunch()
     {
@@ -34,17 +36,25 @@ public class MaskScript : MonoBehaviour
         startPos = transform.position;
     }
 
-    public void CatchMask()
+    public void CatchMask(GameObject newParent)
     {
+        if (!GameObject.ReferenceEquals(newParent, transform.parent.gameObject))
+        {
+            transform.SetParent(newParent.transform, true);
+            owner = newParent;
+        }
+
         launched = false;
         returningMask = false;
-        transform.Rotate(-1*transform.rotation.eulerAngles);
 
-        if (System.Math.Sign(defaultPosMask.x) != System.Math.Sign(defaultPosMask.x))
+        if (-90 <= newParent.transform.rotation.y && newParent.transform.rotation.y <= 90)
         {
             defaultPosMask.x *= -1;
         }
-        transform.position = transform.parent.position + defaultPosMask;
+        
+        transform.position = newParent.transform.position + defaultPosMask;
+        Vector3 curRot = transform.rotation.eulerAngles;
+        transform.Rotate(0, 0, -1*curRot.z);
     }
 
     public void ReturnMask()
@@ -54,7 +64,8 @@ public class MaskScript : MonoBehaviour
 
     void Start()
     {
-        defaultPosMask = transform.position - transform.parent.position;
+        transform.SetParent(owner.transform);
+        defaultPosMask = transform.position - owner.transform.position;
     }
 
     void FixedUpdate()
@@ -66,12 +77,12 @@ public class MaskScript : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, startPos) < max_dist && !returningMask) {
                 transform.position += launch_dir * launch_vel;
-                //transform.Rotate(rot_dir * rot_vel);
+                transform.Rotate(rot_dir * rot_vel);
             } else
             {
                 ReturnMask();
                 transform.position -= launch_dir * launch_vel;
-                //transform.Rotate(-rot_dir * rot_vel);
+                transform.Rotate(-rot_dir * rot_vel);
             }
         }
     }
@@ -87,9 +98,9 @@ public class MaskScript : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             // Player that owns mask
-            if (GameObject.ReferenceEquals(collider.gameObject, transform.parent.gameObject))
+            if (GameObject.ReferenceEquals(collider.gameObject, owner))
             {
-                CatchMask();
+                CatchMask(collider.gameObject);
                 Debug.Log("My MASK");
             } else
             {
