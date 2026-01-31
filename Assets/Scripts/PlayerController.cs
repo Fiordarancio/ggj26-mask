@@ -23,6 +23,12 @@ public class PlayerController : MonoBehaviour
     }
     public void ThrowMask() {
       Debug.Log("Player is throwing a mask");
+      MaskScript mask = transform.Find("Mask").gameObject.GetComponent<MaskScript>();
+
+      if (mask.CanLaunch())
+      {
+        mask.LaunchMask(Vector3.left);
+      }
     }
     public void Dash() {
       Debug.Log("Player is dashing");
