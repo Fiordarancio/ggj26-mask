@@ -30,7 +30,7 @@ public class MaskScript : MonoBehaviour
         return !launched;
     }
 
-    public void LaunchMask(int dir)
+    public void LaunchMask()
     {
         launched = true;
         launch_dir = facing_dir;

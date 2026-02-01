@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
 
 	// Last valid input direction: -1 = left, +1 = right
 	private Direction 	facing = Direction.Right;
+  private bool jumpPressed = false;
+  private bool movePressed = false;
+  private Vector2 moveInput;
 
 	public ParryArea 	parryArea;
 
@@ -67,28 +70,41 @@ public class PlayerController : MonoBehaviour
 	    isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, groundDistance, groundMask);
 	}
 
+  void FixedUpdate()
+  {
+    if (jumpPressed)
+    {
+      rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+      jumpPressed = false;
+    }
+
+    if (movePressed)
+    {
+      Vector3 forceDir = new Vector3(moveInput.x, 0, 0);
+      rb.AddForce(forceDir * jumpForce, ForceMode.VelocityChange);
+      movePressed = false;
+    }
+  }
+
 	public void Move(InputAction.CallbackContext context)
 	{
 		//Controllo che impedisce input per lastDash secondi al fine di rendere il dash duraturo
-		if (Time.time < lastDash) return; 
+		//if (Time.time < lastDash) return; 
 
-	    Vector2 moveInput = context.ReadValue<Vector2>();
+    movePressed = true;
+    moveInput = context.ReadValue<Vector2>();
 
 		//Salvataggio del last input per la direzione del dash
 		if (moveInput.x > 0f)
     {
       facing = Direction.Right;
-      transform.rotation = new Vector3(transform.rotation.x, transform.rotation.y + 180, transform.rotation.z);
+      transform.Rotate(0, 180, 0);
     }
     else if (moveInput.x < 0f)
     {
       facing = Direction.Left;
-      transform.rotation = new Vector3(transform.rotation.x, transform.rotation.y + 180, transform.rotation.z);
+      transform.Rotate(0, 180, 0);
     }
-		
-		Vector3 currentVelocity = rb.linearVelocity;
-		currentVelocity.x = moveInput.x * moveSpeed;
-		rb.linearVelocity = currentVelocity;
 
     FlipChildren();
 	}
@@ -98,9 +114,7 @@ public class PlayerController : MonoBehaviour
 	{
 		// se il player non tocca una superficie che fa parte del layer ground
 		if (!isGrounded) return;
-
-    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    Debug.Log("Player JUMPS");
+    jumpPressed = true;
 	}
 	
   private void TryParry(InputAction.CallbackContext ctx)
