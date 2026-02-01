@@ -85,8 +85,8 @@ public class PlayerController : MonoBehaviour
 
     if (movePressed)
     {
-      Vector3 forceDir = new Vector3(moveInput.x, 0, 0);
-      rb.linearVelocity = forceDir * moveSpeed * Time.deltaTime;
+      Vector3 forceDir = new Vector3(moveInput.x * moveSpeed * Time.deltaTime, rb.linearVelocity.y, rb.linearVelocity.z);
+      rb.linearVelocity = forceDir;
       movePressed = false;
     }
   }
