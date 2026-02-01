@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 	public	InputActionReference _dashAction;
 	public	InputActionReference _parryAction;
 	public	InputActionReference _throwAction;
+	public	InputActionReference _moveAction;
 
 	public bool			isGrounded = false;
 
@@ -53,14 +54,18 @@ public class PlayerController : MonoBehaviour
     _parryAction.action.performed += TryParry;
 		_dashAction.action.performed += OnDash;
     _throwAction.action.performed += TryThrow;
+    _moveAction.action.started += StartMove;
+    _moveAction.action.performed -= StopMove;
 	}
 
 	void OnDestroy()
 	{
 		_jumpAction.action.performed -= OnJump;
-	    _parryAction.action.performed -= TryParry;
+    _parryAction.action.performed -= TryParry;
 		_dashAction.action.performed -= OnDash;
     _throwAction.action.performed -= TryThrow;
+    _moveAction.action.started -= StartMove;
+    _moveAction.action.performed -= StopMove;
 
 	}
 
@@ -74,22 +79,22 @@ public class PlayerController : MonoBehaviour
   {
     if (jumpPressed)
     {
-      rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+      rb.AddForce(Vector3.up * jumpForce * Time.deltaTime, ForceMode.Impulse);
       jumpPressed = false;
     }
 
     if (movePressed)
     {
       Vector3 forceDir = new Vector3(moveInput.x, 0, 0);
-      rb.AddForce(forceDir * jumpForce, ForceMode.VelocityChange);
+      rb.AddForce(forceDir * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
       movePressed = false;
     }
   }
 
-	public void Move(InputAction.CallbackContext context)
+	public void StartMove(InputAction.CallbackContext context)
 	{
 		//Controllo che impedisce input per lastDash secondi al fine di rendere il dash duraturo
-		//if (Time.time < lastDash) return; 
+		if (Time.time < lastDash) return; 
 
     movePressed = true;
     moveInput = context.ReadValue<Vector2>();
@@ -98,15 +103,23 @@ public class PlayerController : MonoBehaviour
 		if (moveInput.x > 0f)
     {
       facing = Direction.Right;
-      transform.Rotate(0, 180, 0);
+      if (transform.rotation.y == -180)
+        transform.Rotate(0, 180, 0);
     }
     else if (moveInput.x < 0f)
     {
       facing = Direction.Left;
-      transform.Rotate(0, 180, 0);
+      if (transform.rotation.y == 0)
+        transform.Rotate(0, 180, 0);
     }
 
     FlipChildren();
+	}
+
+  	public void StopMove(InputAction.CallbackContext context)
+	{
+    movePressed = false;
+    moveInput = new Vector2(0, 0);
 	}
 	
     // Update is called once per frame
