@@ -13,9 +13,8 @@ public class PlayerController : MonoBehaviour
 	[Header("Movement")]
 	public float 		moveSpeed = 10f;
 	public float 		jumpForce = 10f;
-	public float 		umpForce = 200f;
 
-	public float		dashForce = 30f;
+	public float		dashForce = 10f;
 
 	public float		dashCooldown = 2f;
 
@@ -38,7 +37,6 @@ public class PlayerController : MonoBehaviour
 	// Last valid input direction: -1 = left, +1 = right
 	private Direction 	facing = Direction.Right;
 
-	private GameObject[] ownedMasks;
 	public ParryArea 	parryArea;
 
 	private float	lastDash = 0f;
@@ -78,13 +76,21 @@ public class PlayerController : MonoBehaviour
 
 		//Salvataggio del last input per la direzione del dash
 		if (moveInput.x > 0f)
-        facing = Direction.Right;
+    {
+      facing = Direction.Right;
+      transform.rotation = new Vector3(transform.rotation.x, transform.rotation.y + 180, transform.rotation.z);
+    }
     else if (moveInput.x < 0f)
-        facing = Direction.Left;
-
+    {
+      facing = Direction.Left;
+      transform.rotation = new Vector3(transform.rotation.x, transform.rotation.y + 180, transform.rotation.z);
+    }
+		
 		Vector3 currentVelocity = rb.linearVelocity;
 		currentVelocity.x = moveInput.x * moveSpeed;
 		rb.linearVelocity = currentVelocity;
+
+    FlipChildren();
 	}
 	
     // Update is called once per frame
@@ -154,4 +160,25 @@ public class PlayerController : MonoBehaviour
 	{
 	    Debug.Log("Player is parrying");
 	}
+
+  public int GetFacingDir()
+  {
+    if (facing == Direction.Left)
+      return -1;
+    else
+      return 1;
+  }
+
+  private void FlipChildren()
+  {
+    for(int i=0; i<transform.childCount;i++)
+    {
+      Transform child = transform.GetChild(i);
+
+      if ((child.localPosition.x >= 0 && facing == Direction.Right) || (child.localPosition.x < 0 && facing == Direction.Left))
+      {
+        child.localPosition = new Vector3(-child.localPosition.x, child.localPosition.y, child.localPosition.z);
+      }
+    }
+  }
 }

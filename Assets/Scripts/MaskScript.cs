@@ -30,7 +30,7 @@ public class MaskScript : MonoBehaviour
         return !launched;
     }
 
-    public void LaunchMask()
+    public void LaunchMask(int dir)
     {
         launched = true;
         launch_dir = facing_dir;
@@ -47,14 +47,12 @@ public class MaskScript : MonoBehaviour
         }
 
         owner.GetComponent<PlayerController>().parryArea.GetComponent<ParryArea>().Reset();
+        int facing = owner.GetComponent<PlayerController>().GetFacingDir();
 
         launched = false;
         returningMask = false;
 
-        if (-90 <= newParent.transform.rotation.y && newParent.transform.rotation.y <= 90)
-        {
-            defaultPosMask.x *= -1;
-        }
+        defaultPosMask.x *= facing;
         
         transform.position = newParent.transform.position + defaultPosMask;
         Vector3 curRot = transform.rotation.eulerAngles;
@@ -98,9 +96,9 @@ public class MaskScript : MonoBehaviour
         
     }
 
-    void OnCollisionEnter(Collision collider)
+    void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == "Player" && launched)
         {
             // Player that owns mask
             if (GameObject.ReferenceEquals(collider.gameObject, owner))
