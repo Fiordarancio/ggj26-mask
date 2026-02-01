@@ -84,7 +84,7 @@ public class MaskScript : MonoBehaviour
             } else
             {
                 ReturnMask();
-                transform.position -= launch_dir * launch_vel;
+                transform.position = Vector3.MoveTowards(transform.position, owner.transform.position, launch_vel);
                 transform.Rotate(-rot_dir * rot_vel);
             }
         }

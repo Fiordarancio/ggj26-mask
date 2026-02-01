@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     if (movePressed)
     {
       Vector3 forceDir = new Vector3(moveInput.x, 0, 0);
-      rb.AddForce(forceDir * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
+      rb.linearVelocity = forceDir * moveSpeed * Time.deltaTime;
       movePressed = false;
     }
   }
