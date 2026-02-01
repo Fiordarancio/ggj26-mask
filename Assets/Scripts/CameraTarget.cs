@@ -17,11 +17,11 @@ public class CameraTarget : MonoBehaviour
     }
     else if (player1 != null)
     {
-      transform.position = new Vector3(player1.transform.position.x, player1.transform.position.y, transform.position.z);
+      transform.position = player1.transform.position;
     }
     else if (player2 != null)
     {
-      transform.position = new Vector3(player2.transform.position.x, player2.transform.position.y, transform.position.z);
+      transform.position = player2.transform.position;
     }
 
   }

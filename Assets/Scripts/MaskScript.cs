@@ -23,7 +23,7 @@ public class MaskScript : MonoBehaviour
     private Vector3 startPos;
 
     public GameObject owner;
-    private GameObject masksContainer;
+    public GameObject masksContainer;
 
     public bool CanLaunch()
     {
@@ -98,7 +98,7 @@ public class MaskScript : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Player" && launched)
+        if (isPlayerTag(collider.gameObject.tag) && launched)
         {
             // Player that owns mask
             if (GameObject.ReferenceEquals(collider.gameObject, owner))
@@ -112,4 +112,9 @@ public class MaskScript : MonoBehaviour
             }
         }
     }
+    private bool isPlayerTag(string tag)
+  {
+    return tag == "Player1" || tag == "Player2";
+    
+  }
 }
