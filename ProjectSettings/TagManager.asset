@@ -8,6 +8,7 @@ TagManager:
   - ParryArea
   - Player1
   - Player2
+  - MaskContainer
   layers:
   - Default
   - TransparentFX

@@ -68,7 +68,7 @@ public class MaskScript : MonoBehaviour
     {
         transform.SetParent(owner.transform);
         defaultPosMask = transform.position - owner.transform.position;
-        masksContainer = GameObject.Find("Masks");
+        masksContainer = GameObject.FindWithTag("MaskContainer");
     }
 
     void FixedUpdate()

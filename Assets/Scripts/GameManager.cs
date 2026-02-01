@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
   public GameObject player2 = null;
   public CameraTarget cameraTarget;
   [Header("Mask container for parried masks")]
-  public GameObject maskContainer;
+  public Transform pippoMask;
 
   public void OnPlayerJoined()
   {
@@ -30,13 +30,16 @@ public class GameManager : MonoBehaviour
       player1.tag = "Player1";
       // Set camera target
       cameraTarget.player1 = player1;
-      // Set mask container for child mask
-      var masks = FindChildGameObjectsWithTag(player1.transform, "Mask");
-      Debug.Log("masks of player " + masks.Count);
-      if (masks.Count > 0) {
-        masks[0].GetComponent<MaskScript>().masksContainer = maskContainer;
-        Debug.Log("Assigned mask container "+masks[0].GetComponent<MaskScript>().masksContainer);
-      }
+      // // Set mask container for child mask
+      // var masks = FindChildGameObjectsWithTag(player1.transform, "Mask");
+      // Debug.Log("masks of player " + masks.Count);
+      // if (masks.Count > 0) {
+      //   Debug.Log("The terrible mask container is " + pippoMask.gameObject);
+      //   var component = masks[0].GetComponent<MaskScript>();
+      //   Debug.Log("MaskScript component: " + component);
+      //   component.masksContainer = pippoMask.gameObject;
+      //   Debug.Log("Assigned mask container "+component.masksContainer+ " while manager has "+pippoMask.gameObject);
+      // }
     }
     else
     {
@@ -52,10 +55,10 @@ public class GameManager : MonoBehaviour
         player2.tag = "Player2";
         // Set camera target
         cameraTarget.player2 = player2;
-        // Set mask container for child mask
-        var masks = FindChildGameObjectsWithTag(player2.transform, "Mask");
-        if (masks.Count > 0)
-          masks[0].GetComponent<MaskScript>().masksContainer = maskContainer;
+        // // Set mask container for child mask
+        // var masks = FindChildGameObjectsWithTag(player2.transform, "Mask");
+        // if (masks.Count > 0)
+        //   masks[0].GetComponent<MaskScript>().masksContainer = pippoMask.gameObject;
       }
     }
   }
