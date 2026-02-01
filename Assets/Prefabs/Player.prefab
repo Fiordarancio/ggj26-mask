@@ -1,5 +1,101 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2266987247271235516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4046354293271306361}
+  - component: {fileID: 9045490676972221795}
+  - component: {fileID: 6433079771469468136}
+  - component: {fileID: 4093659058802360943}
+  m_Layer: 0
+  m_Name: ParryArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4046354293271306361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2266987247271235516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.012, y: 0, z: 0}
+  m_LocalScale: {x: 0.80201, y: 0.80201, z: 0.80201}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6774472427638451565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9045490676972221795
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2266987247271235516}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &6433079771469468136
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2266987247271235516}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 120
+  m_CollisionDetection: 0
+--- !u!114 &4093659058802360943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2266987247271235516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053376979306cbfb3953df5b953416b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParryArea
+  canParry: 0
+  curMask: {fileID: 0}
 --- !u!1 &3900935463656066747
 GameObject:
   m_ObjectHideFlags: 0
@@ -17,7 +113,7 @@ GameObject:
   - component: {fileID: 8823674156949785731}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,7 +130,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4046354293271306361}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2257395734250856562
@@ -144,8 +241,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8823674156949785731}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: Move
-        m_Mode: 1
+        m_MethodName: StartMove
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -160,8 +257,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8823674156949785731}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: ThrowMask
-        m_Mode: 1
+        m_MethodName: TryThrow
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -176,8 +273,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8823674156949785731}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: Jump
-        m_Mode: 1
+        m_MethodName: OnJump
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -208,8 +305,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8823674156949785731}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: Dash
-        m_Mode: 1
+        m_MethodName: OnDash
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -236,40 +333,8 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1510ea1d-7005-4d06-94fb-9a3489d63a96
     m_ActionName: 'Player/UI - Pause[/XInputControllerWindows/buttonNorth]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: MoveSelection
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Move selection
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 0a65fcbd-6c65-44af-b042-17313a7603d1
-    m_ActionName: 'UI/Move[/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/down]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: Select
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Select
-          m_BoolArgument: 0
-        m_CallState: 1
-    m_ActionId: 0fc3e181-f2d1-4652-9a9d-5ac8e1e1ce4b
-    m_ActionName: 'UI/Select[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/leftTrigger]'
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -282,7 +347,7 @@ Rigidbody:
   m_GameObject: {fileID: 3900935463656066747}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 1
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -297,8 +362,8 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!114 &8823674156949785731
 MonoBehaviour:
@@ -312,3 +377,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a4f776b76b8e74aadae78f68341749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  moveSpeed: 500
+  jumpForce: 500
+  dashForce: 10
+  dashCooldown: 2
+  dashDuration: 1.5
+  groundCheck: {fileID: 6774472427638451565}
+  groundDistance: 0.5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _jumpAction: {fileID: -4222569753313688632, guid: 566cbaa27a0f7c640b7d646b0b94b6c6, type: 3}
+  _dashAction: {fileID: -446039772102059377, guid: 566cbaa27a0f7c640b7d646b0b94b6c6, type: 3}
+  _parryAction: {fileID: -6740577429824088698, guid: 566cbaa27a0f7c640b7d646b0b94b6c6, type: 3}
+  _throwAction: {fileID: -5367807460283511318, guid: 566cbaa27a0f7c640b7d646b0b94b6c6, type: 3}
+  _moveAction: {fileID: -7678758568441521071, guid: 566cbaa27a0f7c640b7d646b0b94b6c6, type: 3}
+  isGrounded: 0
+  parryArea: {fileID: 4093659058802360943}

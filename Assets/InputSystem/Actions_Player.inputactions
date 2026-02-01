@@ -162,110 +162,19 @@
                     "isPartOfComposite": false
                 }
             ]
-        },
+        }
+    ],
+    "controlSchemes": [
         {
-            "name": "UI",
-            "id": "a64b5d19-f303-46ad-98d3-d1b7ce3c124e",
-            "actions": [
+            "name": "Gamepad",
+            "bindingGroup": "Gamepad",
+            "devices": [
                 {
-                    "name": "Move",
-                    "type": "Button",
-                    "id": "0a65fcbd-6c65-44af-b042-17313a7603d1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Select",
-                    "type": "Button",
-                    "id": "0fc3e181-f2d1-4652-9a9d-5ac8e1e1ce4b",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "b24b5a77-9b27-462f-ab97-c08b8dfa80ed",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a7754f2c-8600-42ca-873d-881c631cbf20",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dae01ac8-c64c-4c48-a1cd-a43a274e015f",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "591b3729-9461-4757-90f4-a75bbe388763",
-                    "path": "<Gamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6c4bcdb7-d994-4cff-84db-868941be94a8",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e042dc6e-c650-4909-a315-75659cc46242",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0e4b8d04-4d5f-43ba-afb0-ab19081756da",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
                 }
             ]
         }
-    ],
-    "controlSchemes": []
+    ]
 }
