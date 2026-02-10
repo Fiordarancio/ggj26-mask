@@ -138,7 +138,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -334,8 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297806dcdc2c0ce44802e956797cd0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveForce: 10
-  jumpForce: 10
+  moveForce: 25
   maxHorizontalVelocity: 20
   dashForce: 10
   dashCooldown: 2
@@ -345,6 +344,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  jumpForce: 9
+  landForce: 20
 --- !u!114 &6745838840738096987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,6 +431,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6d64759e-4dd4-4b2d-a641-558e7a8c928d
     m_ActionName: Menu/Pause
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2313307463665273320}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: onLand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5e094af0-a008-465e-b42a-4a8a899ffd6e
+    m_ActionName: 'PlayerMovement/Land[/Keyboard/s]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: PlayerMovement
@@ -460,7 +477,7 @@ Transform:
   m_GameObject: {fileID: 6474309869139585998}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

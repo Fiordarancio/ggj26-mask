@@ -32,6 +32,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Land",
+                    "type": "Button",
+                    "id": "5e094af0-a008-465e-b42a-4a8a899ffd6e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -47,7 +56,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "ASD",
+                    "name": "Horizontal move",
                     "id": "bbf1d5ec-9b9a-4ef5-a059-c1cd6db3aed5",
                     "path": "2DVector",
                     "interactions": "Hold",
@@ -56,17 +65,6 @@
                     "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "down",
-                    "id": "2d5fc280-b767-49bc-b0ec-9b3d913fe680",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "left",
@@ -147,12 +145,12 @@
                 },
                 {
                     "name": "",
-                    "id": "3f81218e-83ac-4ff7-9835-95d1affa3f87",
-                    "path": "<Keyboard>/rightShift",
+                    "id": "e1dc78eb-6e85-4669-80cf-1a4456ee9cb0",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
-                    "action": "Dash",
+                    "action": "Land",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

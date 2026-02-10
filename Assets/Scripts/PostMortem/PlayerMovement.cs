@@ -9,9 +9,9 @@ public class PlayerMovement : MonoBehaviour
   private Vector3 moveDirection = Vector3.right;
   private bool isFlipped = false; // if sprite is oriented to left
   public float moveForce = 10f; // TODO mask specific
-  public float jumpForce = 10f; // TODO mask specific
   public float maxHorizontalVelocity = 20f; // TODO mask specific
 
+  [Header("Dash")]
   public float dashForce = 10f;
   public float dashCooldown = 2f; // TODO mask specific
   public float dashDuration = 1.5f; // TODO mask specific
@@ -24,9 +24,12 @@ public class PlayerMovement : MonoBehaviour
   public float groundDistance = 0.1f;
   public LayerMask groundMask;
 
-  // Jumping
+  [Header("Jump")]
+  public float jumpForce = 10f; // TODO mask specific
+  public float landForce = 20f;
   private bool isGrounded = false;
   private bool isJumpingUp = false;
+  private bool isLandingTriggered = false;
 
   // Getter to apply forces
   private Rigidbody rb;
@@ -42,23 +45,21 @@ public class PlayerMovement : MonoBehaviour
   void Update()
   {
     isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, groundDistance, groundMask);
+    if (isGrounded) isLandingTriggered = false;
   }
 
   void FixedUpdate()
   {
-    // Add movement if available
-    if (moveInput.sqrMagnitude > 0.0001f)
-      rb.AddForce(moveDirection * moveForce, ForceMode.Force);
-
+    // Add movement if available and not jumping up
+    if (moveInput.sqrMagnitude > 0.0001f && !isJumpingUp) 
+          rb.AddForce(moveDirection * moveForce, ForceMode.Force);
+    
     // Test if we are landing
-    if (isJumpingUp)
-      if (rb.linearVelocity.y <= 0)
-        isJumpingUp = false;
+    isJumpingUp = rb.linearVelocity.y > 0;
 
     // Clamp horizontal velocity
     if (Abs(rb.linearVelocity.x) > maxHorizontalVelocity)
     {
-      Debug.Log("Clamp velocity");
       rb.linearVelocity = new Vector3(
         rb.linearVelocity.x > 0 ? maxHorizontalVelocity : -maxHorizontalVelocity,
         rb.linearVelocity.y, rb.linearVelocity.z);
@@ -69,20 +70,14 @@ public class PlayerMovement : MonoBehaviour
   public void onMove(InputAction.CallbackContext context)
   {
     // Don't move if still dashing
-    if (Time.time < lastDash)
-    {
-      Debug.Log("Dashing, can't move");
-      return;
-    }
+    if (Time.time < lastDash) return;
 
     Vector2 newMoveInput = context.ReadValue<Vector2>();
 
     // Compare with last input and flip if needed
     if (newMoveInput.x != 0)
-    {
       if ((!isFlipped && (newMoveInput.x < moveInput.x)) || (isFlipped && (newMoveInput.x > moveInput.y)))
         Flip();
-    }
 
     // Save input
     moveInput = newMoveInput;
@@ -90,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
 
   private void Flip()
   {
-    Debug.Log("Flip!");
+    // Debug.Log("Flip!");
 
     moveDirection.x *= -1;
     isFlipped = !isFlipped;
@@ -100,10 +95,22 @@ public class PlayerMovement : MonoBehaviour
   {
     if (isGrounded && !isJumpingUp)
     {
-      Debug.Log("OnJump");
       rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
       isGrounded = false;
       isJumpingUp = true;
+    }
+  }
+
+  public void onLand()
+  {
+    // Don't dash already triggered
+    if (isLandingTriggered) return;
+
+    if (!isGrounded && !isJumpingUp) // is landing
+    {
+      // Dash down  
+      rb.AddForce(Vector3.down * landForce, ForceMode.Impulse);
+      isLandingTriggered = true;
     }
   }
 
@@ -117,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
     lastDash = Time.time + dashDuration;
 
     // TODO test forward as dash direction
-    rb.AddForce(this.transform.forward * dashForce, ForceMode.Impulse);
+    rb.AddForce(moveDirection * dashForce, ForceMode.Impulse);
   }
 
 }
