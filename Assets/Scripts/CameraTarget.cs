@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class CameraTarget : MonoBehaviour
 {
-  [Header("Camera Target players")]
+  [Header("Players targeted")]
+  [Tooltip("When using MultiplayerGameManager, these fields will be populated automatically")]
   public GameObject player1;
   public GameObject player2;
 
