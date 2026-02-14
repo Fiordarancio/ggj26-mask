@@ -3,7 +3,7 @@
     "name": "Character",
     "maps": [
         {
-            "name": "PlayerMovement",
+            "name": "PlayerBehavior",
             "id": "2991b576-cc99-4c86-9b4c-d9639b47fd70",
             "actions": [
                 {
@@ -37,6 +37,33 @@
                     "name": "Land",
                     "type": "Button",
                     "id": "5e094af0-a008-465e-b42a-4a8a899ffd6e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Throw Mask",
+                    "type": "Button",
+                    "id": "156da868-8856-4272-b325-1d1af1b4ae89",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Parry",
+                    "type": "Button",
+                    "id": "2bd1dcdc-7435-471d-997d-62f7425096d3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "a4c1ee38-d5a9-41f4-97c9-83bf33deabed",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -153,36 +180,10 @@
                     "action": "Land",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "PlayerFight",
-            "id": "b2596539-3fd4-47cf-b3a1-bbebb5337aaf",
-            "actions": [
-                {
-                    "name": "Throw Mask",
-                    "type": "Button",
-                    "id": "2c6042e4-ecb6-4aba-b3c1-6980a0f41f07",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 },
                 {
-                    "name": "Parry",
-                    "type": "Button",
-                    "id": "a944466b-dbf4-4b7e-942d-6bd2499e48c5",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
                     "name": "",
-                    "id": "d9ade1a8-9c23-4286-9859-346c2d60b590",
+                    "id": "063f053f-26d1-4175-8489-fea95330090f",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
@@ -193,7 +194,7 @@
                 },
                 {
                     "name": "",
-                    "id": "8e5c51a4-2393-48f4-a447-498713d2e814",
+                    "id": "974fde75-5d1c-486f-b8d2-287c2e30f37e",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "Press",
                     "processors": "",
@@ -204,7 +205,7 @@
                 },
                 {
                     "name": "",
-                    "id": "a93e8336-021b-4593-b9be-689693734510",
+                    "id": "dcdabc19-20fb-4c95-b15f-8ca29120de83",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "Press",
                     "processors": "",
@@ -215,7 +216,7 @@
                 },
                 {
                     "name": "",
-                    "id": "96c3988a-46e6-4aa4-9563-a745ec77914b",
+                    "id": "6b165bcc-1a69-4cb0-bcaf-d10241e62281",
                     "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
@@ -226,7 +227,7 @@
                 },
                 {
                     "name": "",
-                    "id": "249b040e-b35b-4ca8-9524-253a5edc1876",
+                    "id": "8e334002-8704-4cf2-bb81-80b1009c857b",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "Press",
                     "processors": "",
@@ -237,7 +238,7 @@
                 },
                 {
                     "name": "",
-                    "id": "d9e580dd-4042-4762-b445-727f8b160ee6",
+                    "id": "eb99c56e-f463-4095-a2c4-8e82c67a1319",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "Press",
                     "processors": "",
@@ -248,7 +249,7 @@
                 },
                 {
                     "name": "",
-                    "id": "3891b732-8c65-41d1-af96-acc82ff6355e",
+                    "id": "0ae87a3e-559f-40ec-8139-d950681ede1c",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
@@ -259,7 +260,7 @@
                 },
                 {
                     "name": "",
-                    "id": "3cc7c1e9-58e3-4f0e-8d8c-d307b3cf32c7",
+                    "id": "8995db2c-b455-404f-ad90-92681e3881b6",
                     "path": "<Keyboard>/u",
                     "interactions": "",
                     "processors": "",
@@ -267,27 +268,10 @@
                     "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Menu",
-            "id": "8afae792-259a-4d07-b57c-402f3998f47f",
-            "actions": [
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "6d64759e-4dd4-4b2d-a641-558e7a8c928d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "2950bf4b-9617-4f82-9e1a-dadc086eaae9",
+                    "id": "dad234d3-55aa-475b-beab-d2545ae589a4",
                     "path": "<Gamepad>/start",
                     "interactions": "Press(behavior=2)",
                     "processors": "",
@@ -298,7 +282,7 @@
                 },
                 {
                     "name": "",
-                    "id": "01207d0c-9afc-4fb6-851f-0a26d13bae2b",
+                    "id": "a30b4ae9-15da-4ec0-9fae-b43e5816bca2",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",

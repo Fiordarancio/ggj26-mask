@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Mathf;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerBehavior : MonoBehaviour
 {
   [Header("Movement")]
   private Vector2 moveInput = Vector2.zero; // used to store movements for fixed update
@@ -15,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
   public float dashForce = 10f;
   public float dashCooldown = 2f; // TODO mask specific
   public float dashDuration = 1.5f; // TODO mask specific
-                                    // Dash timers
+  // Dash timers
   private float lastDash = 0f;
   private float nextDashTime = 0f;
 
@@ -30,6 +31,14 @@ public class PlayerMovement : MonoBehaviour
   private bool isGrounded = false;
   private bool isJumpingUp = false;
   private bool isLandingTriggered = false;
+
+  [Header("Mask")]
+  public GameObject playerMask; // get info to send to Mask Manager
+  // TODO mask specific data depending on MaskType/PlayerType
+  private bool canThrowMask = true;
+  // STATIC event to be fired on throw. Receives:
+  // initial position, initial direction, maxdistance
+  public static event Action<string, Vector3, Vector3, float> ThrowMask;
 
   // Getter to apply forces
   private Rigidbody rb;
@@ -48,12 +57,13 @@ public class PlayerMovement : MonoBehaviour
     if (isGrounded) isLandingTriggered = false;
   }
 
+  // FixedUpdate is called once per tick (physics)
   void FixedUpdate()
   {
     // Add movement if available and not jumping up
-    if (moveInput.sqrMagnitude > 0.0001f && !isJumpingUp) 
-          rb.AddForce(moveDirection * moveForce, ForceMode.Force);
-    
+    if (moveInput.sqrMagnitude > 0.0001f && !isJumpingUp)
+      rb.AddForce(moveDirection * moveForce, ForceMode.Force);
+
     // Test if we are landing
     isJumpingUp = rb.linearVelocity.y > 0;
 
@@ -67,6 +77,18 @@ public class PlayerMovement : MonoBehaviour
 
   }
 
+  // Subscribe/Unsubscribe to events
+  private void OnEnable()
+  {
+    Mask.FallDown += onRecoverMask;
+  }
+  private void OnDisable()
+  {
+    Mask.FallDown -= onRecoverMask;
+  }
+
+
+  // Input Action functions
   public void onMove(InputAction.CallbackContext context)
   {
     // Don't move if still dashing
@@ -125,6 +147,34 @@ public class PlayerMovement : MonoBehaviour
 
     // TODO test forward as dash direction
     rb.AddForce(moveDirection * dashForce, ForceMode.Impulse);
+  }
+
+  public void onThrowMask()
+  {
+    if (canThrowMask)
+    {
+      Debug.Log("Can throw mask!");
+      // Invoke action to MaskManager to spawn a Mask to throw
+      ThrowMask?.Invoke(gameObject.name, playerMask.transform.position, moveDirection, 5f);
+      
+      // Set your mask inactive
+      playerMask.SetActive(false);
+      canThrowMask = false;
+      Debug.Log($"Mask thrown by {gameObject.name}");
+    }
+    else
+    {
+      Debug.Log("No! Don't throw");
+    }
+  }
+
+  public void onRecoverMask(string ownerName)
+  {
+    if (ownerName == gameObject.name)
+    {
+      playerMask.SetActive(true);
+      canThrowMask = true;
+    }
   }
 
 }
